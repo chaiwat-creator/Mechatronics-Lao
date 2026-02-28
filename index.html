@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="lo">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ແບບທົດສອບການໃຊ້ງານ PLC Mitsubishi</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Lao:wght@300;400;700&display=swap');
+        body { font-family: 'Noto Sans Lao', sans-serif; background-color: #f8fafc; color: #1e293b; }
+        .hidden { display: none !important; }
+        .fade-in { animation: fadeIn 0.4s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .glass-card { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border: 1px solid rgba(226, 232, 240, 0.8); box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
+        .choice-btn { transition: all 0.2s; }
+        .choice-btn:hover { background-color: #eff6ff; border-color: #3b82f6; }
+        .choice-btn.selected { background-color: #dbeafe; border-color: #2563eb; font-weight: bold; color: #1e3a8a; }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4">
+
+    <div class="w-full max-w-3xl glass-card rounded-2xl p-6 md:p-10 relative overflow-hidden">
+        <!-- Decoration -->
+        <div class="absolute top-0 right-0 w-32 h-32 bg-blue-100 rounded-bl-full -z-10 opacity-50"></div>
+        <div class="absolute bottom-0 left-0 w-24 h-24 bg-indigo-100 rounded-tr-full -z-10 opacity-50"></div>
+
+        <!-- Section 1: Start -->
+        <div id="section-start" class="fade-in">
+            <div class="text-center mb-8">
+                <div class="inline-flex items-center justify-center w-16 h-16 bg-blue-600 text-white rounded-full mb-4 shadow-lg">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" /></svg>
+                </div>
+                <h1 class="text-2xl md:text-3xl font-bold text-slate-800 mb-2">ແບບທົດສອບ PLC Mitsubishi</h1>
+                <p class="text-slate-500">ກະລຸນາປ້ອນຂໍ້ມູນກ່ອນເລີ່ມເຮັດແບບທົດສອບ</p>
+            </div>
+
+            <div class="space-y-4 max-w-md mx-auto">
+                <div>
+                    <label class="block text-sm font-semibold text-slate-700 mb-1">ລະຫັດນັກສຶກສາ / ລະຫັດພະນັກງານ</label>
+                    <input type="text" id="input-id" class="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition" placeholder="ປ້ອນລະຫັດຂອງທ່ານ">
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-slate-700 mb-1">ຊື່ ແລະ ນາມສະກຸນ</label>
+                    <input type="text" id="input-name" class="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition" placeholder="ປ້ອນຊື່ ແລະ ນາມສະກຸນ">
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-slate-700 mb-1">ເລືອກຈຳນວນຂໍ້ສອບ</label>
+                    <select id="input-qcount" class="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition bg-white">
+                        <option value="10">10 ຂໍ້</option>
+                        <option value="20">20 ຂໍ້</option>
+                        <option value="30">30 ຂໍ້</option>
+                        <option value="40">40 ຂໍ້</option>
+                        <option value="50" selected>50 ຂໍ້ (ທັງໝົດ)</option>
+                    </select>
+                </div>
+                
+                <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded text-sm text-yellow-800 mt-4">
+                    <p class="font-bold flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" /></svg>
+                        ຂໍ້ຄວນລະວັງ:
+                    </p>
+                    <ul class="list-disc ml-5 mt-1">
+                        <li>ລະບົບຈະບັນທຶກເວລາທີ່ທ່ານໃຊ້ໃນການເຮັດຂໍ້ສອບ</li>
+                        <li>ຫ້າມສະຫຼັບໜ້າຈໍ ຫຼື ເປີດແທັບອື່ນ ລະບົບຈະກວດຈັບການທຸຈະລິດທັນທີ</li>
+                    </ul>
+                </div>
+
+                <button id="btn-start" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg shadow-md transition transform hover:-translate-y-0.5 mt-6">
+                    ເລີ່ມເຮັດຂໍ້ສອບ
+                </button>
+            </div>
+            
+            <div class="text-center mt-8 text-sm">
+                <button id="btn-show-admin-login" class="text-slate-400 hover:text-slate-600">Admin Login</button>
+            </div>
+        </div>
+
+        <!-- Section 2: Quiz -->
+        <div id="section-quiz" class="hidden fade-in">
+            <div class="flex justify-between items-center border-b pb-4 mb-6">
+                <h2 class="text-lg font-bold text-blue-800">ຂໍ້ທີ <span id="current-q-num">1</span>/<span id="total-q-num">50</span></h2>
+                <div class="flex items-center space-x-2 text-emerald-600 font-bold bg-emerald-50 border border-emerald-100 px-3 py-1.5 rounded-full shadow-sm">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                    <span>ເວລາທີ່ໃຊ້: <span id="timer-display">00:00</span></span>
+                </div>
+            </div>
+
+            <div class="mb-8">
+                <h3 id="question-text" class="text-xl font-semibold text-slate-800 leading-relaxed mb-6">Question text goes here?</h3>
+                <div id="choices-container" class="space-y-3">
+                    <!-- Choices injected here -->
+                </div>
+            </div>
+
+            <div class="flex justify-between items-center mt-8 pt-4 border-t">
+                <button id="btn-prev" class="px-5 py-2.5 rounded-lg border border-slate-300 text-slate-600 hover:bg-slate-50 font-medium transition disabled:opacity-50 disabled:cursor-not-allowed">
+                    ຍ້ອນກັບ
+                </button>
+                <div class="flex space-x-3">
+                    <button id="btn-next" class="px-5 py-2.5 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-medium transition">
+                        ຖັດໄປ
+                    </button>
+                    <button id="btn-submit" class="hidden px-5 py-2.5 rounded-lg bg-green-600 hover:bg-green-700 text-white font-medium transition shadow-md">
+                        ສົ່ງຄຳຕອບ
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 3: Result -->
+        <div id="section-result" class="hidden fade-in text-center py-8">
+            <div class="inline-flex items-center justify-center w-20 h-20 bg-green-100 text-green-600 rounded-full mb-6">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+            </div>
+            <h2 class="text-3xl font-bold text-slate-800 mb-2">ສຳເລັດແລ້ວ!</h2>
+            <p class="text-slate-500 mb-8">ລະບົບໄດ້ບັນທຶກຄະແນນຂອງທ່ານຮຽບຮ້ອຍແລ້ວ</p>
+            
+            <div class="bg-slate-50 rounded-xl p-6 max-w-sm mx-auto shadow-inner text-left space-y-3">
+                <div class="flex justify-between border-b pb-2">
+                    <span class="text-slate-600">ລະຫັດ:</span>
+                    <span class="font-semibold text-slate-800" id="res-id"></span>
+                </div>
+                <div class="flex justify-between border-b pb-2">
+                    <span class="text-slate-600">ຊື່:</span>
+                    <span class="font-semibold text-slate-800" id="res-name"></span>
+                </div>
+                <div class="flex justify-between border-b pb-2">
+                    <span class="text-slate-600">ເວລາທີ່ໃຊ້:</span>
+                    <span class="font-semibold text-slate-800" id="res-time"></span>
+                </div>
+                <div class="flex justify-between items-center py-2">
+                    <span class="text-slate-600">ຄະແນນຂອງທ່ານ:</span>
+                    <span class="text-3xl font-bold text-blue-600"><span id="res-score">0</span><span class="text-lg text-slate-500 font-normal"> / <span id="res-max-score">50</span></span></span>
+                </div>
+                <div id="res-cheat" class="hidden text-sm text-red-500 font-semibold text-center mt-2 p-2 bg-red-50 rounded border border-red-100">
+                    ກວດພົບການສະຫຼັບໜ້າຈໍ <span id="res-cheat-count"></span> ຄັ້ງ
+                </div>
+            </div>
+
+            <button onclick="location.reload()" class="mt-8 text-blue-600 hover:text-blue-800 font-medium underline">
+                ກັບຄືນໜ້າຫຼັກ
+            </button>
+        </div>
+
+        <!-- Section 4: Admin Panel -->
+        <div id="section-admin" class="hidden fade-in">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold text-slate-800">ລະບົບຈັດການ (Admin)</h2>
+                <button onclick="location.reload()" class="text-slate-500 hover:text-slate-800">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                </button>
+            </div>
+            
+            <div class="mb-4 flex justify-end">
+                <button id="btn-export-all" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded shadow flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+                    Export to Excel
+                </button>
+            </div>
+
+            <div class="overflow-x-auto bg-white rounded shadow">
+                <table class="w-full text-left border-collapse" id="admin-table">
+                    <thead>
+                        <tr class="bg-slate-800 text-white text-sm">
+                            <th class="p-3">ເວລາສົ່ງ</th>
+                            <th class="p-3">ລະຫັດ</th>
+                            <th class="p-3">ຊື່ - ນາມສະກຸນ</th>
+                            <th class="p-3 text-center">ຄະແນນ</th>
+                            <th class="p-3 text-center">ເວລາທີ່ໃຊ້</th>
+                            <th class="p-3 text-center">ສະຫຼັບໜ້າຈໍ</th>
+                        </tr>
+                    </thead>
+                    <tbody id="admin-tbody" class="text-sm divide-y divide-slate-200">
+                        <tr><td colspan="6" class="p-4 text-center text-slate-500">ກຳລັງໂຫຼດຂໍ້ມູນ...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Admin Login Modal -->
+    <div id="admin-modal" class="hidden fixed inset-0 bg-slate-900 bg-opacity-50 flex items-center justify-center z-50">
+        <div class="bg-white rounded-lg p-6 w-80 shadow-xl">
+            <h3 class="text-lg font-bold mb-4">Admin Password</h3>
+            <input type="password" id="admin-pwd" class="w-full px-3 py-2 border rounded mb-4" placeholder="Enter password">
+            <div class="flex justify-end space-x-2">
+                <button id="btn-cancel-admin" class="px-4 py-2 text-slate-500 hover:bg-slate-100 rounded">ຍົກເລີກ</button>
+                <button id="btn-login-admin" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">ເຂົ້າສູ່ລະບົບ</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase SDK (Modular) and Application Logic -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+        import { getFirestore, collection, addDoc, getDocs, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+
+        // Firebase Configuration (from apikey.txt)
+        const firebaseConfig = {
+            apiKey: "AIzaSyCvJz_Mw-FfNUWxQEYZk_SoiIjmizWsapc",
+            authDomain: "mechatronics-lao.firebaseapp.com",
+            projectId: "mechatronics-lao",
+            storageBucket: "mechatronics-lao.firebasestorage.app",
+            messagingSenderId: "876540862534",
+            appId: "1:876540862534:web:296dd0c3e64bae77d46a47",
+            measurementId: "G-TT59Q20S8E"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // State Variables
+        let studentData = { id: '', name: '' };
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let cheatingAttempts = 0;
+        let timeTakenSeconds = 0;
+        let timerInterval;
+        let activeQuestions = []; // Questions for current session
+        let userAnswers = [];
+        let isQuizActive = false;
+
+        // All 50 Questions Data (Lao Translated)
+        const allQuestions = [
+            { q: "ໂປຣແກຣມໃດທີ່ນິຍົມໃຊ້ສຳລັບຂຽນໂປຣແກຣມ PLC Mitsubishi?", choices: ["GX Works2 / GX Works3", "TIA Portal", "CX-Programmer", "RSLogix 500"], a: 0 },
+            { q: "ຄຳສັ່ງ LD (Load) ເຮັດໜ້າທີ່ຫຍັງ?", choices: ["ປິດວົງຈອນ (Normally Closed)", "ເປີດວົງຈອນ (Normally Open)", "ຈົບການເຮັດວຽກ", "ຕັ້ງຄ່າການນັບ"], a: 1 },
+            { q: "ອຸປະກອນໃດໃຊ້ເປັນ Output ໃນ PLC Mitsubishi?", choices: ["X", "Y", "M", "T"], a: 1 },
+            { q: "M (Internal Relay) ໃນ PLC ເຮັດໜ້າທີ່ຫຍັງ?", choices: ["ຮັບສັນຍານຈາກພາຍນອກ", "ສົ່ງສັນຍານອອກພາຍນອກ", "ເປັນຣີເລຊ່ວຍພາຍໃນໂປຣແກຣມ", "ເກັບຄ່າຕົວເລກ"], a: 2 },
+            { q: "ຄຳສັ່ງທີ່ໃຊ້ສຳລັບຈົບການຂຽນໂປຣແກຣມຄືຂໍ້ໃດ?", choices: ["STOP", "END", "RST", "SET"], a: 1 },
+            { q: "Timer ໃນ PLC Mitsubishi ໃຊ້ອັກສອນຫຍັງ?", choices: ["T", "C", "D", "M"], a: 0 },
+            { q: "Counter (ໂຕນັບ) ໃຊ້ອັກສອນຫຍັງ?", choices: ["T", "C", "D", "M"], a: 1 },
+            { q: "Data Register (D) ໃຊ້ສຳລັບຫຍັງ?", choices: ["ເກັບສະຖານະ ON/OFF", "ເກັບຄ່າຕົວເລກ", "ຮັບສັນຍານຈາກເຊັນເຊີ", "ຄວບຄຸມມໍເຕີ"], a: 1 },
+            { q: "ສາຍທີ່ໃຊ້ໂຫຼດໂປຣແກຣມລົງ PLC ລຸ້ນ FX3U ຄື?", choices: ["USB to Mini USB", "SC09 / USB-SC09", "Ethernet LAN", "RS232"], a: 1 },
+            { q: "ຖ້າຕ້ອງການໃຫ້ Output ເຮັດວຽກຄ້າງໄວ້ (Latching) ຄວນໃຊ້ຄຳສັ່ງໃດ?", choices: ["OUT", "SET", "RST", "PLS"], a: 1 },
+            { q: "ໂປຣແກຣມ GX Works2 ສາມາດຈຳລອງການເຮັດວຽກໂດຍບໍ່ຕ້ອງມີ PLC ຈິງ ດ້ວຍເຄື່ອງມືໃດ?", choices: ["Write to PLC", "Start/Stop Simulation", "PLC Diagnostics", "Read from PLC"], a: 1 },
+            { q: "ຣີເລຊ່ວຍພິເສດ (Special Relay) ທີ່ສ້າງກຳມະຈອນ 1 ວິນາທີ (1 sec clock) ຄືຕົວໃດ?", choices: ["M8000", "M8002", "M8012", "M8013"], a: 3 },
+            { q: "Special Relay ທີ່ເຮັດວຽກພຽງ 1 ສະແກນທຳອິດ ເມື່ອ PLC ເລີ່ມ RUN ຄື?", choices: ["M8000", "M8002", "M8013", "M8014"], a: 1 },
+            { q: "Special Relay ທີ່ ON ຕະຫຼອດເວລາເມື່ອ PLC ຢູ່ໃນສະຖານະ RUN ຄື?", choices: ["M8000", "M8002", "M8011", "M8012"], a: 0 },
+            { q: "ຄຳສັ່ງທີ່ໃຊ້ສຳລັບການຍ້າຍຂໍ້ມູນ (Move) ຄື?", choices: ["ADD", "SUB", "MOV", "CMP"], a: 2 },
+            { q: "ຄຳສັ່ງທີ່ໃຊ້ສຳລັບການປຽບທຽບຂໍ້ມູນ (Compare) ຄື?", choices: ["MOV", "CMP", "MUL", "DIV"], a: 1 },
+            { q: "ຄຳສັ່ງທີ່ໃຊ້ສຳລັບການບວກເລກ (Addition) ຄື?", choices: ["ADD", "SUB", "INC", "DEC"], a: 0 },
+            { q: "ຄຳສັ່ງທີ່ໃຊ້ສຳລັບການລົບເລກ (Subtraction) ຄື?", choices: ["ADD", "SUB", "INC", "DEC"], a: 1 },
+            { q: "ຄຳສັ່ງທີ່ໃຊ້ສຳລັບການຄູນເລກ (Multiplication) ຄື?", choices: ["ADD", "SUB", "MUL", "DIV"], a: 2 },
+            { q: "ຄຳສັ່ງທີ່ໃຊ້ສຳລັບການຫານເລກ (Division) ຄື?", choices: ["DIV", "MUL", "ADD", "SUB"], a: 0 },
+            { q: "ຖ້າຕ້ອງການເພີ່ມຄ່າຂຶ້ນເທື່ອລະ 1 ໃຊ້ຄຳສັ່ງໃດ?", choices: ["DEC", "INC", "ADD", "MOV"], a: 1 },
+            { q: "ຖ້າຕ້ອງການຫຼຸດຄ່າລົງເທື່ອລະ 1 ໃຊ້ຄຳສັ່ງໃດ?", choices: ["DEC", "INC", "SUB", "MOV"], a: 0 },
+            { q: "ເມື່ອ PLC ເກີດຂໍ້ຜິດພາດຮ້າຍແຮງ ໄຟສັນຍານໃດຈະສະແດງ?", choices: ["RUN", "BATT", "ERR", "IN"], a: 2 },
+            { q: "ສະຖານະໃດທີ່ PLC ຈະຢຸດການປະມວນຜົນໂປຣແກຣມ?", choices: ["RUN", "PAUSE", "STOP", "HALT"], a: 2 },
+            { q: "ໃນການຂຽນໂປຣແກຣມແບບ Ladder, ເສັ້ນແນວຕັ້ງດ້ານຊ້າຍມືໝາຍເຖິງຫຍັງ?", choices: ["ສາຍດິນ", "ເສັ້ນສະໜອງໄຟ (Bus bar)", "ເສັ້ນຈົບໂປຣແກຣມ", "ເສັ້ນສະແດງ Error"], a: 1 },
+            { q: "ຄຳສັ່ງ AND ປຽບທຽບໄດ້ກັບການຕໍ່ວົງຈອນສະວິດແບບໃດ?", choices: ["ຕໍ່ຂະໜານ", "ຕໍ່ປະສົມ", "ຕໍ່ລຽນ (ອະນຸກົມ)", "ຕໍ່ສະລັບ"], a: 2 },
+            { q: "ຄຳສັ່ງ OR ປຽບທຽບໄດ້ກັບການຕໍ່ວົງຈອນສະວິດແບບໃດ?", choices: ["ຕໍ່ຂະໜານ", "ຕໍ່ປະສົມ", "ຕໍ່ລຽນ (ອະນຸກົມ)", "ຕໍ່ສະລັບ"], a: 0 },
+            { q: "Timer T0 ຖ້າຕັ້ງຄ່າ K100 (ຄວາມລະອຽດ 100ms) ຈະໃຊ້ເວລາຈັກວິນາທີ ຈຶ່ງຈະ ON?", choices: ["1 ວິນາທີ", "10 ວິນາທີ", "100 ວິນາທີ", "1000 ວິນາທີ"], a: 1 },
+            { q: "Counter C0 ຖ້າຕັ້ງຄ່າ K5 ໝາຍຄວາມວ່າແນວໃດ?", choices: ["ນັບເວລາ 5 ວິນາທີ", "ນັບລົງຈາກ 5 ຫາ 0", "ນັບຮອດ 5 ແລ້ວ C0 ຈະ ON", "ນັບຂຶ້ນເທື່ອລະ 5"], a: 2 },
+            { q: "ໃນ PLC Mitsubishi, ຕົວອັກສອນໃດໃຊ້ສຳລັບບອກຄ່າຄົງທີ່ແບບເລກຖານສິບ (Decimal)?", choices: ["H", "K", "D", "E"], a: 1 },
+            { q: "ຖ້າຕ້ອງການ Reset ຄ່າຂອງ Timer ຫຼື Counter ໃຫ້ກັບໄປເປັນ 0 ຕ້ອງໃຊ້ຄຳສັ່ງໃດ?", choices: ["CLR", "RST", "DEL", "SET"], a: 1 },
+            { q: "ຄຳສັ່ງ PLS (Pulse) ເຮັດໜ້າທີ່ຫຍັງ?", choices: ["ສົ່ງສັນຍານ ON ຄ້າງໄວ້", "ສົ່ງສັນຍານ ON ກະພິບ", "ສົ່ງສັນຍານ ON 1 Scan time ເມື່ອເງື່ອນໄຂປ່ຽນຈາກ OFF ໄປ ON", "ສົ່ງສັນຍານ ON 1 Scan time ເມື່ອເງື່ອນໄຂປ່ຽນຈາກ ON ໄປ OFF"], a: 2 },
+            { q: "ຄຳສັ່ງ PLF (Pulse Falling) ເຮັດໜ້າທີ່ຫຍັງ?", choices: ["ສົ່ງສັນຍານ ON ຄ້າງໄວ້", "ສົ່ງສັນຍານ ON 1 Scan time ເມື່ອເງື່ອນໄຂປ່ຽນຈາກ OFF ໄປ ON", "ສົ່ງສັນຍານ ON 1 Scan time ເມື່ອເງື່ອນໄຂປ່ຽນຈາກ ON ໄປ OFF", "ຢຸດການເຮັດວຽກຂອງ PLC"], a: 2 },
+            { q: "ຄຳສັ່ງ INV (Inverse) ເຮັດໜ້າທີ່ຫຍັງ?", choices: ["ກັບສະຖານະຈາກ ON ເປັນ OFF, ຫຼື OFF ເປັນ ON", "ປ່ຽນຄ່າບວກເປັນລົບ", "ສະຫຼັບການເຮັດວຽກຂອງ Input ແລະ Output", "ຍົກເລີກຄຳສັ່ງກ່ອນໜ້າ"], a: 0 },
+            { q: "ຄຳສັ່ງ NOP ຫຍໍ້ມາຈາກຫຍັງ?", choices: ["Normal Operation", "No Operation", "Next Operation", "New Operation"], a: 1 },
+            { q: "ແບັດເຕີຣີໃນ PLC ມີໄວ້ເພື່ອຈຸດປະສົງໃດ?", choices: ["ຈ່າຍໄຟໃຫ້ Output", "ສຳຮອງຂໍ້ມູນໃນໜ່ວຍຄວາມຈຳເມື່ອໄຟດັບ", "ເຮັດໃຫ້ PLC ເຮັດວຽກໄວຂຶ້ນ", "ປ້ອງກັນໄຟຕົກ"], a: 1 },
+            { q: "ສັນຍານ Analog Input ທົ່ວໄປ (ແບບແຮງດັນ) ມັກຈະຢູ່ໃນຊ່ວງໃດ?", choices: ["0 ຫາ 5V", "0 ຫາ 10V", "0 ຫາ 24V", "0 ຫາ 220V"], a: 1 },
+            { q: "ສັນຍານ Analog Input ທົ່ວໄປ (ແບບກະແສ) ມັກຈະຢູ່ໃນຊ່ວງໃດ?", choices: ["0 ຫາ 10mA", "4 ຫາ 20mA", "1 ຫາ 5A", "10 ຫາ 20A"], a: 1 },
+            { q: "ໂມດູນທີ່ໃຊ້ປ່ຽນສັນຍານ Analog ເປັນ Digital ເອີ້ນວ່າຫຍັງ?", choices: ["D/A Module", "A/D Module", "I/O Module", "CPU Module"], a: 1 },
+            { q: "ໂມດູນທີ່ໃຊ້ປ່ຽນສັນຍານ Digital ເປັນ Analog ເອີ້ນວ່າຫຍັງ?", choices: ["A/D Module", "D/A Module", "Power Module", "Network Module"], a: 1 },
+            { q: "ໂປຣໂຕຄອນໃດທີ່ໃຊ້ສື່ສານຜ່ານສາຍ LAN?", choices: ["RS-232", "RS-485", "Ethernet", "USB"], a: 2 },
+            { q: "ລະບົບເຄືອຂ່າຍອຸດສາຫະກຳຂອງ Mitsubishi ມີຊື່ເອີ້ນວ່າຫຍັງ?", choices: ["ProfiBus", "DeviceNet", "CC-Link", "Modbus"], a: 2 },
+            { q: "PLC ຫຍໍ້ມາຈາກຄຳວ່າຫຍັງ?", choices: ["Programmable Logic Controller", "Process Logic Control", "Program Line Computer", "Personal Logic Computer"], a: 0 },
+            { q: "ຂໍ້ໃດຄືອົງປະກອບຫຼັກຂອງຮາດແວ PLC?", choices: ["CPU, Memory, Input/Output, Power Supply", "Monitor, Keyboard, Mouse", "Motor, Sensor, Cylinder", "Inverter, Servo, HMI"], a: 0 },
+            { q: "ຊະນິດຂອງ Output ທີ່ສາມາດທົນກະແສໄດ້ສູງແຕ່ເຮັດວຽກຊ້າ ຄືປະເພດໃດ?", choices: ["Transistor", "Relay", "Triac", "SSR"], a: 1 },
+            { q: "ຊະນິດຂອງ Output ທີ່ຕອບສະໜອງໄວ ແລະໃຊ້ກັບໄຟ DC ໂດຍສະເພາະ ຄືປະເພດໃດ?", choices: ["Relay", "Triac", "Transistor", "Contactor"], a: 2 },
+            { q: "ຊະນິດຂອງ Output ທີ່ໃຊ້ກັບການຄວບຄຸມໄຟ AC ໂດຍສະເພາະ ຄືປະເພດໃດ?", choices: ["Triac", "Transistor", "Relay", "Diode"], a: 0 },
+            { q: "ຖ້າ PLC ມີອິນພຸດ 8 ຈຸດ ແລະ ເອົາຕ໌ພຸດ 6 ຈຸດ ຈະມີຈຳນວນ I/O ລວມເທົ່າໃດ?", choices: ["8 I/O", "6 I/O", "14 I/O", "48 I/O"], a: 2 },
+            { q: "ໂປຣແກຣມ GX Works3 ຖືກພັດທະນາມາເພື່ອຮອງຮັບ PLC ລຸ້ນໃດເປັນຫຼັກ?", choices: ["FX1N, FX2N", "FX3G, FX3U", "iQ-R, iQ-F (ເຊັ່ນ FX5U)", "A Series"], a: 2 },
+            { q: "ໃນໂປຣແກຣມ GX Works ເມື່ອຂຽນໂປຣແກຣມສຳເລັດແລ້ວ ກ່ອນຈະໂຫຼດລົງ PLC ຕ້ອງເຮັດຂັ້ນຕອນໃດກ່ອນ?", choices: ["Save Project", "Compile / Build (F4)", "Print Logic", "Close Program"], a: 1 }
+        ];
+
+        // Utility: Show section
+        function showSection(id) {
+            ['section-start', 'section-quiz', 'section-result', 'section-admin'].forEach(sec => {
+                document.getElementById(sec).classList.add('hidden');
+            });
+            document.getElementById(id).classList.remove('hidden');
+        }
+
+        // Format Time Display (MM:SS)
+        function formatTime(totalSeconds) {
+            const m = Math.floor(totalSeconds / 60).toString().padStart(2, '0');
+            const s = (totalSeconds % 60).toString().padStart(2, '0');
+            return `${m}:${s}`;
+        }
+
+        // Timer Logic
+        function startTimer() {
+            timeTakenSeconds = 0;
+            document.getElementById('timer-display').innerText = "00:00";
+            timerInterval = setInterval(() => {
+                timeTakenSeconds++;
+                document.getElementById('timer-display').innerText = formatTime(timeTakenSeconds);
+            }, 1000);
+        }
+
+        function stopTimer() {
+            clearInterval(timerInterval);
+        }
+
+        // Start Quiz Logic
+        document.getElementById('btn-start').addEventListener('click', () => {
+            const id = document.getElementById('input-id').value.trim();
+            const name = document.getElementById('input-name').value.trim();
+            const qCount = parseInt(document.getElementById('input-qcount').value);
+
+            if(!id || !name) {
+                alert("ກະລຸນາປ້ອນລະຫັດ ແລະ ຊື່ໃຫ້ຄົບຖ້ວນ");
+                return;
+            }
+
+            studentData = { id, name };
+            
+            // Randomly select Qs
+            let shuffled = [...allQuestions].sort(() => 0.5 - Math.random());
+            activeQuestions = shuffled.slice(0, qCount);
+            
+            userAnswers = new Array(qCount).fill(null);
+            document.getElementById('total-q-num').innerText = qCount;
+            
+            isQuizActive = true;
+            showSection('section-quiz');
+            startTimer();
+            loadQuestion(0);
+        });
+
+        // Load Question
+        function loadQuestion(index) {
+            currentQuestionIndex = index;
+            document.getElementById('current-q-num').innerText = index + 1;
+            
+            const q = activeQuestions[index];
+            document.getElementById('question-text').innerText = `${index + 1}. ${q.q}`;
+            
+            const container = document.getElementById('choices-container');
+            container.innerHTML = '';
+            
+            q.choices.forEach((choice, i) => {
+                const btn = document.createElement('button');
+                btn.className = `choice-btn w-full text-left p-4 rounded-lg border-2 ${userAnswers[index] === i ? 'selected' : 'border-slate-200 bg-white'}`;
+                btn.innerText = choice;
+                btn.onclick = () => selectChoice(i);
+                container.appendChild(btn);
+            });
+
+            // Handle Buttons
+            document.getElementById('btn-prev').disabled = index === 0;
+            
+            if (index === activeQuestions.length - 1) {
+                document.getElementById('btn-next').classList.add('hidden');
+                document.getElementById('btn-submit').classList.remove('hidden');
+            } else {
+                document.getElementById('btn-next').classList.remove('hidden');
+                document.getElementById('btn-submit').classList.add('hidden');
+            }
+        }
+
+        function selectChoice(choiceIndex) {
+            userAnswers[currentQuestionIndex] = choiceIndex;
+            loadQuestion(currentQuestionIndex); // re-render
+        }
+
+        // Navigation
+        document.getElementById('btn-prev').addEventListener('click', () => {
+            if(currentQuestionIndex > 0) loadQuestion(currentQuestionIndex - 1);
+        });
+        document.getElementById('btn-next').addEventListener('click', () => {
+            if(currentQuestionIndex < activeQuestions.length - 1) loadQuestion(currentQuestionIndex + 1);
+        });
+
+        // Submit Quiz
+        document.getElementById('btn-submit').addEventListener('click', async () => {
+            if(userAnswers.includes(null)) {
+                if(!confirm("ທ່ານຍັງເຮັດຂໍ້ສອບບໍ່ຄົບທຸກຂໍ້ ຕ້ອງການສົ່ງເລີຍບໍ່?")) return;
+            }
+            
+            stopTimer();
+            isQuizActive = false;
+            
+            // Calculate Score
+            score = 0;
+            userAnswers.forEach((ans, i) => {
+                if(ans === activeQuestions[i].a) score++;
+            });
+
+            // Save to DB
+            const btnSubmit = document.getElementById('btn-submit');
+            btnSubmit.disabled = true;
+            btnSubmit.innerText = "ກຳລັງບັນທຶກ...";
+
+            const finalTimeStr = formatTime(timeTakenSeconds);
+            const totalScore = activeQuestions.length;
+
+            try {
+                await addDoc(collection(db, "exam_results"), {
+                    student_id: studentData.id,
+                    student_name: studentData.name,
+                    score: score,
+                    total_score: totalScore,
+                    time_taken: finalTimeStr,
+                    cheating_attempts: cheatingAttempts,
+                    timestamp: serverTimestamp()
+                });
+
+                // Display result
+                document.getElementById('res-id').innerText = studentData.id;
+                document.getElementById('res-name').innerText = studentData.name;
+                document.getElementById('res-score').innerText = score;
+                document.getElementById('res-max-score').innerText = totalScore;
+                document.getElementById('res-time').innerText = finalTimeStr;
+                
+                const cheatEl = document.getElementById('res-cheat');
+                if (cheatingAttempts > 0) {
+                    cheatEl.classList.remove('hidden');
+                    document.getElementById('res-cheat-count').innerText = cheatingAttempts;
+                }
+
+                showSection('section-result');
+            } catch (e) {
+                console.error("Error adding document: ", e);
+                alert("ເກີດຂໍ້ຜິດພາດໃນການບັນທຶກຂໍ້ມູນ ກະລຸນາແຈ້ງອາຈານ.");
+                btnSubmit.disabled = false;
+                btnSubmit.innerText = "ສົ່ງຄຳຕອບ";
+            }
+        });
+
+        // Anti-Cheat: Visibility Change
+        document.addEventListener('visibilitychange', () => {
+            if (isQuizActive && document.hidden) {
+                cheatingAttempts++;
+            }
+        });
+
+        // --- Admin Section ---
+        document.getElementById('btn-show-admin-login').onclick = () => {
+            document.getElementById('admin-modal').classList.remove('hidden');
+        };
+        
+        document.getElementById('btn-cancel-admin').onclick = () => {
+            document.getElementById('admin-modal').classList.add('hidden');
+            document.getElementById('admin-pwd').value = '';
+        };
+
+        document.getElementById('btn-login-admin').onclick = () => {
+            if(document.getElementById('admin-pwd').value === '1234') {
+                document.getElementById('admin-modal').classList.add('hidden');
+                showSection('section-admin');
+                loadAdminData();
+            } else {
+                alert("ລະຫັດຜ່ານບໍ່ຖືກຕ້ອງ!");
+            }
+        };
+
+        async function loadAdminData() {
+            const tbody = document.getElementById('admin-tbody');
+            try {
+                const q = query(collection(db, "exam_results"), orderBy("timestamp", "desc"));
+                const querySnapshot = await getDocs(q);
+                
+                tbody.innerHTML = '';
+                
+                if(querySnapshot.empty) {
+                    tbody.innerHTML = '<tr><td colspan="6" class="p-4 text-center text-slate-500">ຍັງບໍ່ມີຂໍ້ມູນການສອບເສັງ</td></tr>';
+                } else {
+                    querySnapshot.forEach((docSnap) => {
+                        const d = docSnap.data();
+                        const dateStr = d.timestamp ? d.timestamp.toDate().toLocaleString('lo-LA') : '-';
+                        const maxS = d.total_score || 50;
+                        const cheatClass = d.cheating_attempts > 0 ? 'text-red-500 font-bold bg-red-50' : 'text-emerald-500';
+                        
+                        tbody.innerHTML += `
+                            <tr class="hover:bg-slate-50 transition">
+                                <td class="p-3">${dateStr}</td>
+                                <td class="p-3 font-semibold text-slate-700">${d.student_id}</td>
+                                <td class="p-3">${d.student_name}</td>
+                                <td class="p-3 text-center font-bold text-blue-600">${d.score} / ${maxS}</td>
+                                <td class="p-3 text-center">${d.time_taken || '-'}</td>
+                                <td class="p-3 text-center ${cheatClass} rounded">${d.cheating_attempts || 0}</td>
+                            </tr>
+                        `;
+                    });
+                }
+            } catch(e) {
+                console.error("Fetch data error:", e);
+                tbody.innerHTML = '<tr><td colspan="6" class="p-4 text-center text-red-500">ເກີດຂໍ້ຜິດພາດໃນການດຶງຂໍ້ມູນ</td></tr>';
+            }
+        }
+
+        document.getElementById('btn-export-all').onclick = () => {
+            const table = document.getElementById('admin-table');
+            const wb = XLSX.utils.table_to_book(table, {sheet: "Result"});
+            XLSX.writeFile(wb, "PLC_Exam_Results.xlsx");
+        };
+
+    </script>
+</body>
+</html>
